@@ -89,10 +89,10 @@ public class XMLManager {
 				}
 			}
 
-		} catch (JDOMException e1) {
-			Log.traceFileCorrupt(file);
 		} catch (IOException e1) {
-			Log.traceFileCorrupt(file);
+			Log.traceFileCorrupt(file,e1);
+		} catch (JDOMException e) {
+			Log.traceFileCorrupt(file,e);
 		}
 
 		return messagesDatas;

@@ -6,7 +6,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
-import com.ressources.Ressources;
 
 public class Database {
 
@@ -22,14 +21,14 @@ public class Database {
 		Mongo mongo;
 
 		// connect to mongoDB, ip and port number
-		mongo = new Mongo(Ressources.HOST, Ressources.PORT);
+		mongo = new Mongo(PropertyLoader.getValue("database.host"),Integer.valueOf(PropertyLoader.getValue("database.port")));
 
 		// get database from MongoDB,
 		// if database doesn't exists, mongoDB will create it automatically
-		db = mongo.getDB(Ressources.DATABASE_NAME);
+		db = mongo.getDB(PropertyLoader.getValue("database.name"));
 
 		// take the collection from the database
-		collectionMessage = db.getCollection(Ressources.COLLECTION_MESSAGE);
+		collectionMessage = db.getCollection(PropertyLoader.getValue("database.collection"));
 
 	}
 	

@@ -9,7 +9,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import com.ressources.Ressources;
+import javax.mail.MessagingException;
+
+import org.jdom2.JDOMException;
+
+import com.mongodb.MongoException;
 
 public class  Log {
 
@@ -20,9 +24,9 @@ public class  Log {
 	 * @throws IOException
 	 */
 	public static void init()throws IOException {
-		logger = Logger.getLogger(Ressources.LOG_ID);
+		logger = Logger.getLogger("myLog");
 		// path of the log file
-		FileHandler fileHandler = new FileHandler(Ressources.LOG_PATH);
+		FileHandler fileHandler = new FileHandler(PropertyLoader.getValue("log.path")+"/"+PropertyLoader.getValue("log.id"));
 		logger.addHandler(fileHandler);
 		
 		//Simple format
@@ -99,24 +103,42 @@ public class  Log {
 	 * Trace file corruption
 	 * @param file
 	 */
-	public static void traceFileCorrupt(File file) {
-		String fileCorrupt = "The file '"+ file.getName()+"' is corrupt";
+	public static void traceFileCorrupt(File file,IOException e) {
+		String fileCorrupt = "The file '"+ file.getName()+"' is corrupt : "+ e.getMessage();
+		logger.log(Level.SEVERE, fileCorrupt);
+	}
+	
+	/**
+	 * Trace file corruption
+	 * @param file
+	 */
+	public static void traceDirectoryCorrupt(File directory) {
+		String fileCorrupt = "The file's directory with the path '"+ directory.getPath()+"' is corrupt";
+		logger.log(Level.SEVERE, fileCorrupt);
+	}
+	
+	/**
+	 * Trace file corruption
+	 * @param file
+	 */
+	public static void traceFileCorrupt(File file,JDOMException e) {
+		String fileCorrupt = "The file '"+ file.getName()+"' is corrupt : "+ e.getMessage();
 		logger.log(Level.SEVERE, fileCorrupt);
 	}
 	
 	/**
 	 * Trace mail configuration error
 	 */
-	public static void traceMailError() {
-		String emailError = "The email configuration is not ok";
+	public static void traceMailError(MessagingException e) {
+		String emailError = "The email configuration is not ok : "+ e.getMessage();
 		logger.log(Level.SEVERE, emailError);
 	}
 	
 	/**
 	 * Trace database configuration error
 	 */
-	public static void traceDatabaseError() {
-		String dbError = "The database configuration is not ok";
+	public static void traceDatabaseError(MongoException e) {
+		String dbError = "The database configuration is not ok : "+ e.getMessage();
 		logger.log(Level.SEVERE, dbError);
 	}
 	

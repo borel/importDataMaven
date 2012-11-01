@@ -10,8 +10,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.ressources.Ressources;
-
 public class Email {
 
 	private Session session = null;
@@ -23,14 +21,12 @@ public class Email {
 	 */
 	public void send(MessageData messageData) {
 			try {
-				this.connect(Ressources.EMAIL_HOST, Ressources.EMAIL_USER,Ressources.EMAIL_PASSWORD);
-				this.send(Ressources.EMAIL_USER, Ressources.EMAIL_DESTINATION,
+				this.connect(PropertyLoader.getValue("email.host"),PropertyLoader.getValue("email.user"),PropertyLoader.getValue("email.password"));
+				this.send(PropertyLoader.getValue("email.user"), PropertyLoader.getValue("email.destination"),
 						"Error in message : " + messageData.getSubject(),
 						"Error in message : " + messageData.getPriority());
-			} catch (NoSuchProviderException e) {
-				Log.traceMailError();
-			} catch (MessagingException e) {
-				Log.traceMailError();
+			}catch (MessagingException e) {
+				Log.traceMailError(e);
 			}
 	}
 	

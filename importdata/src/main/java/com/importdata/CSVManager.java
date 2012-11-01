@@ -1,7 +1,6 @@
 package com.importdata;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
@@ -69,10 +68,8 @@ public class CSVManager {
 				}
 				datas.add(nextLine);
 			}
-		} catch (FileNotFoundException e) {
-			Log.traceFileCorrupt(file);
-		} catch (IOException e) {
-			Log.traceFileCorrupt(file);
+		}catch (IOException e) {
+			Log.traceFileCorrupt(file,e);
 		}
 		return datas;
 
