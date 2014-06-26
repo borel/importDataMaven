@@ -32,6 +32,7 @@ public class  Log {
 		//Simple format
 		fileHandler.setFormatter(new SimpleFormatter());
 		
+		//
 		// Add to console
 		ConsoleHandler ch = new ConsoleHandler();
 		logger.addHandler(ch);
